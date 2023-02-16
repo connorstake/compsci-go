@@ -1,0 +1,5 @@
+{
+    "two_sum": {
+        "test_directory": "two_sum/two_sum_test.go"
+    }
+}
