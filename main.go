@@ -9,6 +9,7 @@ import (
 	"os/exec"
 
 	"github.com/connorstake/csgo/test_code"
+	"github.com/connorstake/csgo/types/http_response"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
@@ -61,13 +62,6 @@ func solutionHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	cmd := exec.Command("go", "test", "./"+SOLUTION_FOLDER_PREFIX)
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println("OUTPUT: ", string(output))
 	defer func() {
 		err = os.Remove(SOLUTION_FOLDER_PREFIX + test.TestFileName())
 		if err != nil {
@@ -80,6 +74,23 @@ func solutionHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 
+	cmd := exec.Command("go", "test", "./"+SOLUTION_FOLDER_PREFIX)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("OUTPUT: ", string(output))
+
+	passing := http_response.NewTestCheck(string(output)).Passing()
+
+	response := http_response.NewSolutionResponse(string(output), passing)
+
+	json_response, err := json.Marshal(response)
+	if err != nil {
+		panic(err)
+	}
+
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(output))
+	w.Write([]byte(json_response))
 }

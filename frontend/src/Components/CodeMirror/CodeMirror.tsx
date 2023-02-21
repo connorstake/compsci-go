@@ -7,10 +7,11 @@ import { historyField } from '@codemirror/commands';
 
 interface CodeMirrorWrapperProps {
     value: string;
+    localStorageKey: string;
   }
 
 
-export const CodeMirrorWrapper = ({value}: CodeMirrorWrapperProps) => {
+export const CodeMirrorWrapper = ({value, localStorageKey}: CodeMirrorWrapperProps) => {
 
     const stateFields = { history: historyField };
 
@@ -19,14 +20,13 @@ export const CodeMirrorWrapper = ({value}: CodeMirrorWrapperProps) => {
         className='codeEditor'
         style={{ fontSize: '14px', width: '100%'}}
         value={value} 
-        height="650px" 
         extensions={[StreamLanguage.define(go)]} 
         theme={okaidia}
         onChange={(value, viewUpdate) => {
-          localStorage.setItem('myValue', value);
+          localStorage.setItem(localStorageKey, value);
           const state = viewUpdate.state.toJSON(stateFields);
           localStorage.setItem('myEditorState', JSON.stringify(state));
-          console.log("state:", state.doc)
+          console.log("state:", state)
         }}
         />
     )

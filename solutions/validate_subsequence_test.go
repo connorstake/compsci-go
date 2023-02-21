@@ -1,11 +1,4 @@
-package test_code
-
-type ValidSubsequenceModule struct {
-	module string
-}
-
-func (tc *ValidSubsequenceModule) TestCode() string {
-	return `package solutions_test
+package solutions_test
 
 	import (
 		"testing"
@@ -36,27 +29,4 @@ func (tc *ValidSubsequenceModule) TestCode() string {
 				t.Errorf("IsValidSubsequence(%v, %v) = %v; want %v", test.array, test.sequence, result, test.expected)
 			}
 		}
-	}`
-}
-
-func (tc *ValidSubsequenceModule) TestFileName() string {
-	return tc.module + "_test.go"
-}
-
-func (tc *ValidSubsequenceModule) SolutionFileName() string {
-	return tc.module + "_solution_user.go"
-}
-
-//Possible Solution
-
-// arrayIdx := 0
-// 	seqIdx := 0
-
-// 	for arrayIdx < len(array) && seqIdx < len(sequence) {
-// 		if array[arrayIdx] == sequence[seqIdx] {
-// 			seqIdx++
-// 		}
-// 		arrayIdx++
-// 	}
-
-// 	return seqIdx == len(sequence)
+	}

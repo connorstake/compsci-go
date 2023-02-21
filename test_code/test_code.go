@@ -13,6 +13,10 @@ func NewTestCode(module string) Test {
 	switch module {
 	case "two_sum":
 		return &TwoSumTestCode{module}
+	case "validate_subsequence":
+		return &ValidSubsequenceModule{module}
+	case "sorted_squared_array":
+		return &SortedSquaredArrayTestCode{module}
 	default:
 		return nil
 	}

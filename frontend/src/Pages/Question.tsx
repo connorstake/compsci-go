@@ -1,62 +1,47 @@
 
 import { Button, Grid} from '@mui/material';
 import React, { useState } from 'react';
-import { DialogueBox } from './Components/DialogueBox/DialogueBox';
-import textData from './text.json'
+import { DialogueBox } from '../Components/DialogueBox/DialogueBox';
+import textData from '../text.json'
 
-import { CodeMirrorWrapper } from './Components/CodeMirror/CodeMirror';
-import Video from './Components/Video/Video';
+import { CodeMirrorWrapper } from '../Components/CodeMirror/CodeMirror';
+import Video from '../Components/Video/Video';
 
-import Request from './api/Request';
-import './App.css'
-import { Console } from './Components/Console/Console';
-import { TwoSumModule } from './Modules/twoSum';
-import { ValidateSubsequenceModule } from './Modules/validateSubsequence'
-import CorrectAnswerModal from './Components/Modal/CorrectAnswer/CorrectAnswer';
-import { ModuleSequence } from './Modules/narrator';
-import { Module, Dialog } from './Modules/module';
+import Request from '../api/Request';
+
+import { Console } from '../Components/Console/Console';
+import CorrectAnswerModal from '../Components/Modal/CorrectAnswer/CorrectAnswer';
+import { Module } from '../Modules/module';
+import { useNavigate } from "react-router-dom";
+
 // import { ChatGPTClient } from '@waylaidwanderer/chatgpt-api';
 
 
-function App() {
+interface QuestionProps {
+    module: Module;
+    nextModulePath: string;
+}
+
+function Question({ module, nextModulePath } : QuestionProps) {
 
   const [consoleText, setConsoleText] = useState('');
-  const serializedState = localStorage.getItem('myEditorState');
   const [dialogueText, setDialogueText] = useState('');
   const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [completedModalOpen, setCompletedModalOpen] = useState(false);
-  const [currentModule, setCurrentModule] = useState(new Module("", {dialogueSequence:['']}, '', '', ''));
-  const [congratsText, setCongratsText] = useState('');
-  const [moduleName , setModuleName] = useState('');
-  const [videoPath, setVideoPath] = useState('');
+
+  const navigate = useNavigate();
 
 
 
-  const moduleSequence = new ModuleSequence(1)
-
-
-  React.useEffect(() => {
-    const module = moduleSequence.current()
-    setVideoPath(module.videoPath)
-    setModuleName(module.name)
-    setCurrentModule(module)
-  }, [])
-  
 
   // const currentModule = new TwoSumModule();
   // const currentModule = new ValidateSubsequenceModule();
-  const value = localStorage.getItem(currentModule.name) || currentModule.startingCode;
-
+  const value = localStorage.getItem(module.name) || module.startingCode;
 
   const nextModule = () => {
-    moduleSequence.incrementModuleIdx();
-    setCurrentModule(moduleSequence.current());
-    setVideoPath(currentModule.videoPath)
-    setModuleName(currentModule.name)
-    setCurrentDialogueIndex(0);
-    console.log("NEXT MODULE"!!)
-    console.log(currentModule)
+        navigate("/" + nextModulePath);
+        navigate(0)
   }
 
   const typeText = (dialogue: string, dialogueHolder: string, nextIndex: number) => {
@@ -75,25 +60,24 @@ function App() {
   };
 
   React.useEffect(() => {
-    console.log(currentModule, currentDialogueIndex, isTyping, dialogueText)
+    console.log(module, currentDialogueIndex, isTyping, dialogueText)
     if (!isTyping) {
-    const currentDialogue = currentModule.dialogueByIdx(currentDialogueIndex);
+    const currentDialogue = module.dialogueByIdx(currentDialogueIndex);
     if (currentDialogue !== '') {
       typeText(currentDialogue, '', currentDialogueIndex + 1);
     }
   }
-  },[currentModule, isTyping]);
+  },[module, isTyping]);
 
   const submitAnswerHandler = async () => {
     setConsoleText('Sending Transmission...');
-    const request = new Request(currentModule.solutionURI());
-    const value = localStorage.getItem('myValue') || currentModule.startingCode;
+    const request = new Request(module.solutionURI());
+    const value = localStorage.getItem(module.name) || module.startingCode;
     const res = await request.post({ answer: value });
     if (!res.success) {
       setConsoleText(res.output);
     } else {
       setConsoleText('Transmission Received!');
-      setCongratsText(currentModule.completedText);
       setCompletedModalOpen(true);
     }
     
@@ -103,24 +87,22 @@ function App() {
     <Grid container style={{height: '100vh', backgroundColor: '#0d1b2a', }}>
 
       <Grid item xs={12} style={{position: 'absolute', top: '100px'}}>
-        <CorrectAnswerModal isOpen={completedModalOpen} completedText={congratsText} moduleName={currentModule.name} nextModule={nextModule}/>
+        <CorrectAnswerModal isOpen={completedModalOpen} completedText={module.completedText} moduleName={module.name} nextModule={nextModule}/>
       </Grid>
       
       
       <Grid item xs={5} style={{padding: 10}} >
-        {videoPath !== '' &&
         <Grid item xs={12} >
-          <Video src={videoPath}/>
+          <Video src={module.videoPath}/>
           {/* <img alt='scientist' style={{width: '100%', height: '500px', border: 'solid grey 3px'}} src={String(scientistImg)}></img> */}
         </Grid>
-        }
         <Grid>
           <DialogueBox dialogue={dialogueText}/>
         </Grid>   
       </Grid>
       <Grid item xs={7}>
         <Grid item xs={12}>
-          <CodeMirrorWrapper value={value} localStorageKey={moduleName}/>
+          <CodeMirrorWrapper value={value} localStorageKey={module.name}/>
         </Grid>
           <Grid item xs={12} style={{backgroundColor: 'black', minHeight: '100px', color: 'white', fontSize: 14, padding: 15}}>
             <Console consoleText={consoleText}/>
@@ -136,4 +118,4 @@ function App() {
 }
 
 
-export default App;
+export default Question;
