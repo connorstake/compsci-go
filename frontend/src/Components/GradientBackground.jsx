@@ -1,7 +1,7 @@
-
+import React from "react";
  
  const GradientBackground = () => {
-
+    React.useEffect(() => {
     var c = document.getElementById('canvas');
     var $ = c.getContext('2d');
     
@@ -30,12 +30,15 @@
           col(x, y, R(x,y,t), G(x,y,t), B(x,y,t));
         }
       }
-      t = t + 0.020;
+      t = t + 0.005;
       window.requestAnimationFrame(run);
     }
     
     run();
-    return null
+    }, [])
+    return (
+        <canvas id="canvas" width="1px" height="1px" position="absolute" z-index="'-1"></canvas>
+    )
 }
 
 export default GradientBackground;
