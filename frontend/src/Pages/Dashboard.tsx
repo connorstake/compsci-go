@@ -3,7 +3,6 @@ import { Button, Grid } from '@mui/material'
 import GradientBackground from '../Components/GradientBackground'
 
 import { useNavigate } from "react-router-dom";
-import demo from '/images/demo.gif'
 
 
 const Dashboard = () => {
@@ -37,17 +36,16 @@ const Dashboard = () => {
                 
                 <Grid item xs={6} style={{padding: 20, backgroundColor: 'rgba(237, 237, 237, 0.3)', borderRadius: 20}}>
                     <Grid container>
-                    <Grid item xs={12} style={{ color: 'white'}}>
-                        <img src='/images/logo.png' style={{ height: 50 }}/>
-                    </Grid>
-                    <Grid item xs={8}  >
-                            <img src='/images/editor.png' style={{width: '150%', height: '100%', borderRadius: 5}}/>
+                        <Grid item xs={12} style={{ color: 'white'}}>
+                            <img src='/images/logo.png' style={{ height: 50 }}/>
+                        </Grid>
+                        <Grid item xs={8}  >
+                                <img src='/images/editor.png' style={{width: '150%', height: '100%', borderRadius: 5}}/>
                         </Grid>
                         <Grid item xs={4} style={{}}>
                             <img src={'/images/demo.gif'} alt="loading..." style={{width: '100%', height: '200px', borderTopRightRadius: 5}}/>
                         </Grid>     
                     </Grid>
-                    
                 </Grid>
             </Grid>
             <Grid item xs={6} style={{marginTop: 150}}> 

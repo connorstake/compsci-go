@@ -2,6 +2,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { StreamLanguage } from '@codemirror/language';
 import { go } from '../../legacy-modes/mode/go';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
+import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark';
 import { historyField } from '@codemirror/commands';
 
 
@@ -21,7 +22,7 @@ export const CodeMirrorWrapper = ({value, localStorageKey}: CodeMirrorWrapperPro
         style={{ fontSize: '14px', width: '100%'}}
         value={value} 
         extensions={[StreamLanguage.define(go)]} 
-        theme={okaidia}
+        theme={gruvboxDark}
         onChange={(value, viewUpdate) => {
           localStorage.setItem(localStorageKey, value);
           const state = viewUpdate.state.toJSON(stateFields);

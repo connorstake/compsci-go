@@ -13,7 +13,7 @@ export const DialogueBox = ({ dialogue}: DialogueProps) => {
 
     
     return (
-        <Grid style={{backgroundColor: 'black', color: 'white', height: '130px', padding: 10}}>
+        <Grid style={{backgroundColor: 'black', color: 'white', height: '100%', padding: 10, fontSize: '16px', marginTop: '-1', borderBottomRightRadius: 10, borderBottomLeftRadius: 10}}>
          {dialogue}
         </Grid>
     )

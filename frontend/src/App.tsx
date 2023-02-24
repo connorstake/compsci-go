@@ -101,36 +101,6 @@ function App() {
 
   return (
     <Grid container style={{height: '100vh', backgroundColor: '#0d1b2a', }}>
-
-      <Grid item xs={12} style={{position: 'absolute', top: '100px'}}>
-        <CorrectAnswerModal isOpen={completedModalOpen} completedText={congratsText} moduleName={currentModule.name} nextModule={nextModule}/>
-      </Grid>
-      
-      
-      <Grid item xs={5} style={{padding: 10}} >
-        {videoPath !== '' &&
-        <Grid item xs={12} >
-          <Video src={videoPath}/>
-          {/* <img alt='scientist' style={{width: '100%', height: '500px', border: 'solid grey 3px'}} src={String(scientistImg)}></img> */}
-        </Grid>
-        }
-        <Grid>
-          <DialogueBox dialogue={dialogueText}/>
-        </Grid>   
-      </Grid>
-      <Grid item xs={7}>
-        <Grid item xs={12}>
-          <CodeMirrorWrapper value={value} localStorageKey={moduleName}/>
-        </Grid>
-          <Grid item xs={12} style={{backgroundColor: 'black', minHeight: '100px', color: 'white', fontSize: 14, padding: 15}}>
-            <Console consoleText={consoleText}/>
-          </Grid>
-          {!isTyping &&
-          <Grid item xs={3} style={{marginTop: '10px'}}>
-            <Button onClick={submitAnswerHandler} style={{backgroundColor: "black", color: "green", border:'solid green 2px'}}>Send Transmission</Button>
-          </Grid>
-          }
-      </Grid>
     </Grid>
   )
 }
