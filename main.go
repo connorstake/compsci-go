@@ -63,12 +63,12 @@ func solutionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer func() {
-		err = os.Remove(SOLUTION_FOLDER_PREFIX + test.TestFileName())
+		err = os.Remove("./" + SOLUTION_FOLDER_PREFIX + test.TestFileName())
 		if err != nil {
 			panic(err)
 		}
 
-		err = os.Remove(SOLUTION_FOLDER_PREFIX + test.SolutionFileName())
+		err = os.Remove("./" + SOLUTION_FOLDER_PREFIX + test.SolutionFileName())
 		if err != nil {
 			panic(err)
 		}

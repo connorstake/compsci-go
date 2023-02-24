@@ -19,10 +19,10 @@ export const CodeMirrorWrapper = ({value, localStorageKey}: CodeMirrorWrapperPro
     return (
         <CodeMirror 
         className='codeEditor'
-        style={{ fontSize: '14px', width: '100%'}}
+        style={{ fontSize: '13.5px', width: '100%', borderRadius:5!}}
         value={value} 
         extensions={[StreamLanguage.define(go)]} 
-        theme={gruvboxDark}
+        theme={okaidia}
         onChange={(value, viewUpdate) => {
           localStorage.setItem(localStorageKey, value);
           const state = viewUpdate.state.toJSON(stateFields);

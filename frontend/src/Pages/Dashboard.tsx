@@ -18,7 +18,7 @@ const Dashboard = () => {
     return (
         <React.Fragment>
         { gradientActive && <GradientBackground/>} 
-        <Grid container style={{ backgroundColor: 'white', height: '100%', paddingLeft: 200, paddingRight: 50, marginBottom: 300 }}>
+        <Grid container style={{ backgroundColor: '#edf6f9', height: '100%', paddingLeft: 200, paddingRight: 50, paddingBottom: 300 }}>
             <Grid style={{zIndex: 2}}>
                 <img src='/images/logo.png' style={{ height: 80}}/>
             </Grid>

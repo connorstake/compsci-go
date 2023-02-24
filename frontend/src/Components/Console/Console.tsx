@@ -5,7 +5,7 @@ interface ConsoleProps {
 }
 export const Console = ({consoleText}: ConsoleProps) => {
    return ( 
-    <Grid style={{color: 'green'}}>
+    <Grid style={{color: 'white', fontSize:'12px'}}>
         {consoleText}
     </Grid>
    )

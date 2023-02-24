@@ -12,7 +12,7 @@ import Request from '../api/Request';
 import { Console } from '../Components/Console/Console';
 import CorrectAnswerModal from '../Components/Modal/CorrectAnswer/CorrectAnswer';
 import { Module } from '../Modules/module';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import { ChatGPTClient } from '@waylaidwanderer/chatgpt-api';
 
@@ -36,13 +36,10 @@ function Question({ module, nextModulePath } : QuestionProps) {
   const navigate = useNavigate();
 
 
-
-
-  // const currentModule = new TwoSumModule();
-  // const currentModule = new ValidateSubsequenceModule();
   const value = localStorage.getItem(module.name) || module.startingCode;
 
   const nextModule = () => {
+        setCompletedModalOpen(false);
         navigate("/" + nextModulePath);
         navigate(0)
   }
@@ -116,8 +113,13 @@ function Question({ module, nextModulePath } : QuestionProps) {
 
 
   return (
-    <Grid container style={{height: '100%', backgroundColor: '#0d1b2a',  paddingLeft: 50, paddingRight: 50, paddingBottom: 300, paddingTop: 100 }}>
-
+    <Grid container style={{height: '100%', backgroundColor: '#edf6f9',  paddingLeft: 50, paddingRight: 50, paddingBottom: 300}}>
+        <Grid item xs={12} style={{zIndex: 2}}>
+            <Link to="/">
+              <img src='/images/logo.png' style={{ height: 80}}/>
+            </Link>
+        </Grid>
+       
       <Grid item xs={12} style={{position: 'absolute', top: '100px'}}>
         <CorrectAnswerModal isOpen={completedModalOpen} completedText={module.completedText} moduleName={module.name} nextModule={nextModule}/>
       </Grid>
@@ -126,12 +128,16 @@ function Question({ module, nextModulePath } : QuestionProps) {
         </Grid>
       </Grid>
       <Grid item xs={9}>
+        <Grid style={{backgroundColor:'rgba(117,117,117, 0.2)', padding: 30, borderRadius: 10, paddingTop: 20}}>
+          <Grid container style={{marginBottom: 10}}>
+            <div style={{backgroundColor: '#ed6a5e', height:'12px', width:'12px', borderRadius: '100%', marginRight: 5}}></div>
+            <div style={{backgroundColor: '#f4bd4e', height:'12px', width:'12px', borderRadius: '100%', marginRight: 5}}></div>
+            <div style={{backgroundColor: '#00e600', height:'12px', width:'12px', borderRadius: '100%', marginRight: 5}}></div>
+          </Grid>
         <Grid container style={{position: 'relative'}}>
-                      
-
           <Grid item xs={12} style={{position: 'relative'}} >
-          {showVideo && <Grid style={{position: 'absolute', height:'100%', width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.7)', zIndex:5}}></Grid> }
-            <CodeMirrorWrapper value={value} localStorageKey={module.name}/>
+          {showVideo && <Grid style={{position: 'absolute', height:'100%', width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex:5, borderRadius: 5}}></Grid> }
+            <CodeMirrorWrapper  value={value} localStorageKey={module.name}/>
           </Grid>
           {showVideo &&
           <Grid item xs={4} style={{position: 'absolute', right:0, zIndex: 10}}>
@@ -157,13 +163,14 @@ function Question({ module, nextModulePath } : QuestionProps) {
           {!showVideo &&
           <Grid>
           <Grid item xs={3} style={{marginTop: '10px'}}>
-            <Button onClick={submitAnswerHandler} style={{backgroundColor: "black", color: "green", border:'solid green 2px'}}>Send Transmission</Button>
+            <Button onClick={submitAnswerHandler} style={{backgroundColor: "#006d77", color: "white", boxShadow: "0px 16px 15px rgb(112, 144, 176, .20)", border:"solid rgb(112, 144, 176, .20) 1px"}}>Send Transmission</Button>
           </Grid>
           {/* <Grid>
             <Button onClick={startVideo} style={{backgroundColor: "black", color: "green", border:'solid green 2px'}}>Show Video</Button>
           </Grid> */}
           </Grid>
           }
+      </Grid>
       </Grid>
     </Grid>
   )
