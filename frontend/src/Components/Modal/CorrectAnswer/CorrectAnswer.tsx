@@ -17,17 +17,17 @@ const CorrectAnswerModal: React.FC<{isOpen: boolean, completedText?: string, mod
       <Modal
         open={isOpen}
         // BackdropComponent={Backdrop}
-        BackdropProps={{ timeout: 500 }}
-        style={{width: '500px', margin: '0 auto', paddingTop: '150px', position: 'absolute'}}
+        style={{width: '500px', paddingTop: '150px', position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}
+        hideBackdrop={true}
       >
         <Fade in={isOpen}>
-            <Grid container style={{ backgroundColor: "black", color: "green",padding: "10px", border: 'solid green 2px'}}>
+            <Grid container style={{ backgroundColor: "white", color: "black",padding: 20, boxShadow: "0px 16px 15px rgb(112, 144, 176, .20)", border:"solid rgb(112, 144, 176, .20) 1px", borderRadius: 10}}>
                 <Grid item xs={12}>
                     <h2>{moduleName?.toUpperCase()}</h2>
                     <p>{completedText}</p>
                 </Grid>
                 <Grid container justifyContent="flex-end">
-                    <Button onClick={nextModule} style={{backgroundColor: "white", color: "green"}}> Next Section </Button>
+                    <Button onClick={nextModule} style={{backgroundColor: "#006d77", color: "white"}}> Next Section </Button>
                 </Grid>
             </Grid>
         </Fade>

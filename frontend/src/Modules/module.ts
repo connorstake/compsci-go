@@ -10,13 +10,15 @@ export class Module {
     videoPath: string;
     startingCode: string;
     completedText: string;
+    imagePath: string;
 
-    constructor(name: string, dialog: Dialog, videoPath: string, startingCode: string, completedText: string) {
+    constructor(name: string, dialog: Dialog, videoPath: string, startingCode: string, completedText: string, imagePath: string = "") {
         this.name = name;
         this.dialog = dialog;
         this.videoPath = videoPath;
         this.startingCode = startingCode;
         this.completedText = completedText;
+        this.imagePath = imagePath;
     }
 
     dialogueByIdx(seq: number): string {

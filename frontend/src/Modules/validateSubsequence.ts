@@ -10,6 +10,6 @@ export class ValidateSubsequenceModule extends Module {
                 "We are counting on you to help us land safely. Check back in when you're ready with that algorithm!"
             ],
         }, '/images/mars/validate_subsequence.mp4', "package solutions  // **DO NOT CHANGE THIS LINE**\n\n // Given two non-empty arrays of integers, write a function that determines \n // whether the second array is a subsequence of the first one. \n // A subsequence of an array is a set of numbers that aren't necessarily adjacent \n // in the array but that are in the same order as they appear in the array. For \n // instance, the numbers [1, 3, 4] form a subsequence of the array [1, 2, 3, 4] \n // and so do the numbers [2, 4]. Note that a single number in an array and the \n // array itself are both valid subsequences of the array. \n\n // Sample Input \n // array = [5, 1, 22, 25, 6, -1, 8, 10] \n // sequence = [1, 6, -1, 10] \n\n // Sample Output \n // true \n\n\nfunc IsValidSubsequence(array []int, sequence []int) bool {\n\t// Write your code here.\n\treturn false\n}\n\n",
-            "Congratulations! You have successfully completed the Validate Subsequence module.");
+            "Congratulations! You have successfully completed the Validate Subsequence module.", '/images/cover/mars-cover.png');
     }
 }

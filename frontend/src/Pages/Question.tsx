@@ -13,6 +13,9 @@ import { Console } from '../Components/Console/Console';
 import CorrectAnswerModal from '../Components/Modal/CorrectAnswer/CorrectAnswer';
 import { Module } from '../Modules/module';
 import { Link, useNavigate } from "react-router-dom";
+import Confetti from '../Components/Confetti';
+import { CourseProgress } from '../Components/CourseProgress/CourseProgress';
+import { ModuleImage } from '../Components/CourseProgress/ModuleImage';
 
 // import { ChatGPTClient } from '@waylaidwanderer/chatgpt-api';
 
@@ -114,6 +117,7 @@ function Question({ module, nextModulePath } : QuestionProps) {
 
   return (
     <Grid container style={{height: '100%', backgroundColor: '#edf6f9',  paddingLeft: 50, paddingRight: 50, paddingBottom: 300}}>
+      { completedModalOpen && <Confetti />}
         <Grid item xs={12} style={{zIndex: 2}}>
             <Link to="/">
               <img src='/images/logo.png' style={{ height: 80}}/>
@@ -124,7 +128,15 @@ function Question({ module, nextModulePath } : QuestionProps) {
         <CorrectAnswerModal isOpen={completedModalOpen} completedText={module.completedText} moduleName={module.name} nextModule={nextModule}/>
       </Grid>
       <Grid item xs={3} >
+        <Grid container>
+          <Grid container item xs={11} style={{marginBottom: 20}} >
+            <Grid item xs={12} >
+              <ModuleImage imagePath={module.imagePath}/>
+            </Grid>
+          </Grid>
+        </Grid>
         <Grid item xs={12} >
+          <CourseProgress />
         </Grid>
       </Grid>
       <Grid item xs={9}>
