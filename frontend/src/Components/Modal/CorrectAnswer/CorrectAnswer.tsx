@@ -11,7 +11,7 @@ const PaperStyle = styled('div')({
     padding: "10px",
 });
 
-const CorrectAnswerModal: React.FC<{isOpen: boolean, completedText?: string, moduleName?: string, nextModule : ()=>void}> = ({isOpen, completedText, moduleName, nextModule}) => {
+const CorrectAnswerModal: React.FC<{isOpen: boolean, completedText?: string, moduleName?: string, nextModule : ()=>void, spaceTimeComplexity: {space: string, time: string, explanation: string}}> = ({isOpen, completedText, moduleName, nextModule, spaceTimeComplexity}) => {
 
   return (
       <Modal
@@ -25,6 +25,9 @@ const CorrectAnswerModal: React.FC<{isOpen: boolean, completedText?: string, mod
                 <Grid item xs={12}>
                     <h2>{moduleName?.toUpperCase()}</h2>
                     <p>{completedText}</p>
+                    <p><span style={{color: '#006d77', fontWeight: 'bold'}}> Space Complexity:</span> <span style={{color: '#e29578', fontWeight: 'bold'}}>{spaceTimeComplexity.space}</span></p>
+                    <p><span style={{color: '#006d77', fontWeight: 'bold'}}> Time Complexity:</span> <span style={{color: '#e29578', fontWeight: 'bold'}}>{spaceTimeComplexity.time}</span></p>
+                    <p>{spaceTimeComplexity.explanation}</p>
                 </Grid>
                 <Grid container justifyContent="flex-end">
                     <Button onClick={nextModule} style={{backgroundColor: "#006d77", color: "white"}}> Next Section </Button>

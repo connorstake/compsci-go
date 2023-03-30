@@ -55,8 +55,6 @@ function App() {
     setVideoPath(currentModule.videoPath)
     setModuleName(currentModule.name)
     setCurrentDialogueIndex(0);
-    console.log("NEXT MODULE"!!)
-    console.log(currentModule)
   }
 
   const typeText = (dialogue: string, dialogueHolder: string, nextIndex: number) => {

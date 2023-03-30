@@ -27,7 +27,6 @@ export const CodeMirrorWrapper = ({value, localStorageKey}: CodeMirrorWrapperPro
           localStorage.setItem(localStorageKey, value);
           const state = viewUpdate.state.toJSON(stateFields);
           localStorage.setItem('myEditorState', JSON.stringify(state));
-          console.log("state:", state)
         }}
         />
     )

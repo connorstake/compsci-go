@@ -16,9 +16,10 @@ import { Link, useNavigate } from "react-router-dom";
 import Confetti from '../Components/Confetti';
 import { CourseProgress } from '../Components/CourseProgress/CourseProgress';
 import { ModuleImage } from '../Components/CourseProgress/ModuleImage';
+import { OpenAI } from '../api/openai';
 
-// import { ChatGPTClient } from '@waylaidwanderer/chatgpt-api';
-
+const ORG_ID = "org-50rpClW7vbD8f1UL4qt8Xh7W"
+const API_KEY = "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"
 
 interface QuestionProps {
     module: Module;
@@ -29,11 +30,13 @@ function Question({ module, nextModulePath } : QuestionProps) {
 
   const [consoleText, setConsoleText] = useState('');
   const [dialogueText, setDialogueText] = useState('');
+  const [spaceTimeComplexity, setSpaceTimeComplexity] = useState({space: '', time: '', explanation: ''});
   const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [completedModalOpen, setCompletedModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showVideo, setShowVideo] = useState(true);
+  const [showDialogue, setShowDialogue] = useState(true);
 
 
   const navigate = useNavigate();
@@ -66,7 +69,6 @@ function Question({ module, nextModulePath } : QuestionProps) {
 
 
   React.useEffect(() => {
-    console.log(module, currentDialogueIndex, isTyping, dialogueText)
     if (!isTyping && isPlaying) {
     const currentDialogue = module.dialogueByIdx(currentDialogueIndex);
     if (currentDialogue !== '' && currentDialogueIndex + 1 < currentDialogue.length) {
@@ -91,6 +93,13 @@ function Question({ module, nextModulePath } : QuestionProps) {
     if (!res.success) {
       setConsoleText(res.output);
     } else {
+      const oai = new OpenAI(ORG_ID, API_KEY);
+      const evaluation = await oai.evaluateRuntime(value)
+      if (evaluation) {
+        const cleanedResponse = evaluation.replace(/"{3}$/, '');
+        console.log("EVALUATION: ", cleanedResponse)
+        setSpaceTimeComplexity(JSON.parse(cleanedResponse))
+      }
       setConsoleText('Transmission Received!');
       setCompletedModalOpen(true);
     }  
@@ -115,6 +124,17 @@ function Question({ module, nextModulePath } : QuestionProps) {
   }
 
 
+  // TODO: This is sloppy, fix it
+  const refreshState = () => {
+    setShowDialogue(false);
+    setShowVideo(false);
+    setTimeout(() => {
+      navigate(0) 
+    }
+    , 5);
+  }
+
+
   return (
     <Grid container style={{height: '100%', backgroundColor: '#edf6f9',  paddingLeft: 50, paddingRight: 50, paddingBottom: 300}}>
       { completedModalOpen && <Confetti />}
@@ -125,7 +145,7 @@ function Question({ module, nextModulePath } : QuestionProps) {
         </Grid>
        
       <Grid item xs={12} style={{position: 'absolute', top: '100px'}}>
-        <CorrectAnswerModal isOpen={completedModalOpen} completedText={module.completedText} moduleName={module.name} nextModule={nextModule}/>
+        <CorrectAnswerModal isOpen={completedModalOpen} completedText={module.completedText} moduleName={module.name} nextModule={nextModule} spaceTimeComplexity={spaceTimeComplexity}/>
       </Grid>
       <Grid item xs={3} >
         <Grid container>
@@ -136,11 +156,11 @@ function Question({ module, nextModulePath } : QuestionProps) {
           </Grid>
         </Grid>
         <Grid item xs={12} >
-          <CourseProgress />
+          <CourseProgress refreshState={refreshState}/>
         </Grid>
       </Grid>
       <Grid item xs={9}>
-        <Grid style={{backgroundColor:'rgba(117,117,117, 0.2)', padding: 30, borderRadius: 10, paddingTop: 20}}>
+        <Grid style={{backgroundColor:'rgba(117,117,117, 0.2)', padding: 30, borderRadius: 10, paddingTop: 20,  boxShadow: "0px 16px 15px rgba(117,117,117, 0.2)", border:"solid rgba(117,117,117, 0.20) .2px"}}>
           <Grid container style={{marginBottom: 10}}>
             <div style={{backgroundColor: '#ed6a5e', height:'12px', width:'12px', borderRadius: '100%', marginRight: 5}}></div>
             <div style={{backgroundColor: '#f4bd4e', height:'12px', width:'12px', borderRadius: '100%', marginRight: 5}}></div>
@@ -151,7 +171,7 @@ function Question({ module, nextModulePath } : QuestionProps) {
           {showVideo && <Grid style={{position: 'absolute', height:'100%', width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex:5, borderRadius: 5}}></Grid> }
             <CodeMirrorWrapper  value={value} localStorageKey={module.name}/>
           </Grid>
-          {showVideo &&
+          {showVideo && showDialogue &&
           <Grid item xs={4} style={{position: 'absolute', right:0, zIndex: 10}}>
             <Video src={module.videoPath} isPlaying={isPlaying}/>
             <DialogueBox dialogue={dialogueText}/>
